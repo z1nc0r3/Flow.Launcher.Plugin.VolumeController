@@ -1,33 +1,37 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
-    <AssemblyName>Flow.Launcher.Plugin.VolumeController</AssemblyName>
-    <PackageId>Flow.Launcher.Plugin.VolumeController</PackageId>
-    <Authors>z1nc0r3</Authors>
-    <PackageProjectUrl>https://github.com/z1nc0r3/Flow.Launcher.Plugin.VolumeController</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/z1nc0r3/Flow.Launcher.Plugin.VolumeController</RepositoryUrl>
-    <PackageTags>flow-launcher flow-plugin</PackageTags>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <AssemblyName>Flow.Launcher.Plugin.VolumeController</AssemblyName>
+        <PackageId>Flow.Launcher.Plugin.VolumeController</PackageId>
+        <Authors>z1nc0r3</Authors>
+        <PackageProjectUrl>https://github.com/z1nc0r3/Flow.Launcher.Plugin.VolumeController</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/z1nc0r3/Flow.Launcher.Plugin.VolumeController</RepositoryUrl>
+        <PackageTags>flow-launcher flow-plugin</PackageTags>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>None</DebugType>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugSymbols>false</DebugSymbols>
+        <DebugType>None</DebugType>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="plugin.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="plugin.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Flow.Launcher.Plugin" Version="4.0.0" />
-    <PackageReference Include="FuzzySharp" Version="2.0.2" />
-    <PackageReference Include="NAudio.Wasapi" Version="2.1.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Flow.Launcher.Plugin" Version="4.0.0"/>
+        <PackageReference Include="FuzzySharp" Version="2.0.2"/>
+        <PackageReference Include="NAudio.Wasapi" Version="2.1.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Languages\"/>
+    </ItemGroup>
 
 </Project>
