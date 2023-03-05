@@ -7,6 +7,6 @@
   "Version": "1.0.0",
   "Language": "csharp",
   "Website": "https://github.com/z1nc0r3/Flow.Launcher.Plugin.VolumeController",
-  "IcoPath": "icon.png",
+  "IcoPath": "Images/volume_on.png",
   "ExecuteFileName": "Flow.Launcher.Plugin.VolumeController.dll"
 }

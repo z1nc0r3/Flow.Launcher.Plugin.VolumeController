@@ -16,18 +16,19 @@ public class VolumeController : IPlugin {
 
     public void Init(PluginInitContext context) {
         _context = context;
-        _defaultPlaybackDevice = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-        _volume = _defaultPlaybackDevice.AudioEndpointVolume;
     }
 
     public List<Result> Query(Query query) {
+        _defaultPlaybackDevice = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+        _volume = _defaultPlaybackDevice.AudioEndpointVolume;
+
         var commands = Commands(query);
 
         if (_defaultPlaybackDevice == null || _volume == null)
             return new List<Result> {
                 new() {
                     Title = "No audio endpoints found",
-                    IcoPath = _context.CurrentPluginMetadata.IcoPath
+                    IcoPath = "Images/volume_on.png"
                 }
             };
 
@@ -69,7 +70,7 @@ public class VolumeController : IPlugin {
                 Mute();
                 return true;
             },
-            IcoPath = "Images/mute.png"
+            IcoPath = "Images/volume_off.png"
         });
     }
 
@@ -81,9 +82,9 @@ public class VolumeController : IPlugin {
                 Unmute();
                 return true;
             },
-            IcoPath = "Images/unmute.png"
+            IcoPath = "Images/volume_on.png"
         });
-    }
+    } 
 
     private void AddSetVolumeResult(List<Result> results, double value) {
         var subTitle = value < 0 ? "Enter custom value" : $"Set volume to {value}";
@@ -95,7 +96,7 @@ public class VolumeController : IPlugin {
                 SetVolume(value);
                 return true;
             },
-            IcoPath = "Images/setvolme.png"
+            IcoPath = "Images/volume_on.png"
         });
     }
 
@@ -115,7 +116,9 @@ public class VolumeController : IPlugin {
     }
 
     public void Unmute() {
-        _volume.MasterVolumeLevelScalar = _currentVolume;
+        if (_volume.MasterVolumeLevelScalar == 0) {
+            _volume.MasterVolumeLevelScalar = _currentVolume;
+        }
         _isMute = false;
     }
 }

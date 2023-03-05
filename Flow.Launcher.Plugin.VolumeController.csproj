@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0-windows</TargetFramework>
+		<ProjectGuid>{743CB433-0CBC-4FDF-9B16-C8328AE16345}</ProjectGuid>
         <AssemblyName>Flow.Launcher.Plugin.VolumeController</AssemblyName>
         <PackageId>Flow.Launcher.Plugin.VolumeController</PackageId>
         <Authors>z1nc0r3</Authors>
@@ -9,6 +10,7 @@
         <RepositoryUrl>https://github.com/z1nc0r3/Flow.Launcher.Plugin.VolumeController</RepositoryUrl>
         <PackageTags>flow-launcher flow-plugin</PackageTags>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
@@ -24,14 +26,21 @@
         </Content>
     </ItemGroup>
 
+	<ItemGroup>
+	    <None Remove="Images\volume_on.png" />
+	    <None Remove="Images\volume_off.png" />
+	    <Content Include="Images\volume_on.png">
+		    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    </Content>
+	    <Content Include="Images\volume_off.png">
+		    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    </Content>
+	</ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="Flow.Launcher.Plugin" Version="4.0.0" />
         <PackageReference Include="FuzzySharp" Version="2.0.2" />
         <PackageReference Include="NAudio.Wasapi" Version="2.1.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Images\" />
     </ItemGroup>
 
 </Project>
