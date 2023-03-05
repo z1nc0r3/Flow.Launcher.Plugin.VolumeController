@@ -4,6 +4,9 @@ using NAudio.CoreAudioApi;
 
 namespace Flow.Launcher.Plugin.VolumeController;
 
+/// <summary>
+/// Volume Controller class
+/// </summary>
 public class VolumeController : IPlugin {
     private readonly MMDeviceEnumerator _deviceEnumerator = new();
 
@@ -14,10 +17,21 @@ public class VolumeController : IPlugin {
     private bool _isMute;
     private AudioEndpointVolume _volume;
 
+    /// <summary>
+    /// Initialize the plugin when starting the Flow Launcher
+    /// </summary>
+    /// <param name="context"></param>
     public void Init(PluginInitContext context) {
         _context = context;
+        _defaultPlaybackDevice = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+        _volume = _defaultPlaybackDevice.AudioEndpointVolume;
     }
 
+    /// <summary>
+    /// Query function which runs when user enter the action keyword
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
     public List<Result> Query(Query query) {
         _defaultPlaybackDevice = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
         _volume = _defaultPlaybackDevice.AudioEndpointVolume;
@@ -100,25 +114,38 @@ public class VolumeController : IPlugin {
         });
     }
 
-    public void SetVolume(double value) {
+    /// <summary>
+    /// Set custom volume
+    /// </summary>
+    /// <param name="value"></param>
+    private void SetVolume(double value) {
+        if (_volume.Mute) {
+            _volume.Mute = false;
+        }
+
         value = Math.Max(0, Math.Min(100, value));
         _volume.MasterVolumeLevelScalar = (float)value / 100;
         _currentVolume = _volume.MasterVolumeLevelScalar;
     }
 
-    public void Mute() {
-        if (_isMute) return;
+    /// <summary>
+    /// Mute the speaker
+    /// </summary>
+    private void Mute() {
+        if (_volume.Mute) return;
 
         _currentVolume = _volume.MasterVolumeLevelScalar;
-        _volume.MasterVolumeLevelScalar = 0;
-
-        _isMute = true;
+        _volume.Mute = true;
     }
 
-    public void Unmute() {
+    /// <summary>
+    /// Unmute and restore the previous volume
+    /// </summary>
+    private void Unmute() {
+        _volume.Mute = false;
+        
         if (_volume.MasterVolumeLevelScalar == 0) {
             _volume.MasterVolumeLevelScalar = _currentVolume;
         }
-        _isMute = false;
     }
 }
