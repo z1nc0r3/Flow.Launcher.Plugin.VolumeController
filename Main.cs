@@ -26,7 +26,7 @@ public class VolumeController : IPlugin {
         if (_defaultPlaybackDevice == null || _volume == null)
             return new List<Result> {
                 new() {
-                    Title = "No audio endpoint found.",
+                    Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_no_endpoints_found"),
                     IcoPath = _context.CurrentPluginMetadata.IcoPath
                 }
             };
@@ -55,7 +55,7 @@ public class VolumeController : IPlugin {
             }
 
             if (query.Search.Length > 0 && !double.TryParse(query.Search, out _))
-                results.RemoveAll(result => result.Title.Equals("Set Volume"));
+                results.RemoveAll(result => result.Title.Equals(_context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_set_volume")));
         }
 
         return results;
@@ -63,37 +63,39 @@ public class VolumeController : IPlugin {
 
     private void AddMuteResult(List<Result> results) {
         results.Add(new Result {
-            Title = "Mute",
-            SubTitle = "Mute the volume",
+            Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_mute"),
+            SubTitle = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_subtitle_mute"),
             Action = _ => {
                 Mute();
                 return true;
-            }
+            },
+            IcoPath = "Images/mute.png"
         });
     }
 
     private void AddUnmuteResult(List<Result> results) {
         results.Add(new Result {
-            Title = "Unmute",
-            SubTitle = "Restore the volume",
+            Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_unmute"),
+            SubTitle = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_subtitle_mute"),
             Action = _ => {
                 Unmute();
                 return true;
-            }
+            },
+            IcoPath = "Images/unmute.png"
         });
     }
 
     private void AddSetVolumeResult(List<Result> results, double value) {
-        var subTitle = value < 0 ? "Enter a custom value" : $"Set volume to {value}";
+        var subTitle = value < 0 ? _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_subtitle_set_volume") : $"Set volume to {value}";
 
         results.Add(new Result {
-            Title = "Set Volume",
+            Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_set_volume"),
             SubTitle = subTitle,
             Action = _ => {
                 SetVolume(value);
                 return true;
             },
-            IcoPath = "Images/app.png"
+            IcoPath = "Images/setvolme.png"
         });
     }
 
