@@ -14,7 +14,6 @@ public class VolumeController : IPlugin {
 
     private float _currentVolume;
     private MMDevice _defaultPlaybackDevice;
-    private bool _isMute;
     private AudioEndpointVolume _volume;
 
     /// <summary>
