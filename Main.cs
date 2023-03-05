@@ -41,20 +41,16 @@ public class VolumeController : IPlugin {
 
         if (search.StartsWith("m")) {
             AddMuteResult(results);
-        }
-        else if (search.StartsWith("u")) {
+        } else if (search.StartsWith("u")) {
             AddUnmuteResult(results);
-        }
-        else if (double.TryParse(query.Search, out var value)) {
+        } else if (double.TryParse(query.Search, out var value)) {
             AddSetVolumeResult(results, value);
-        }
-        else {
+        } else {
             AddMuteResult(results);
             AddUnmuteResult(results);
             try {
                 AddSetVolumeResult(results, double.Parse(query.Search));
-            }
-            catch {
+            } catch {
                 AddSetVolumeResult(results, -1);
             }
 
