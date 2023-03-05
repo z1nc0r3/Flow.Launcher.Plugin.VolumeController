@@ -26,7 +26,7 @@ public class VolumeController : IPlugin {
         if (_defaultPlaybackDevice == null || _volume == null)
             return new List<Result> {
                 new() {
-                    Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_no_endpoints_found"),
+                    Title = "No audio endpoints found",
                     IcoPath = _context.CurrentPluginMetadata.IcoPath
                 }
             };
@@ -55,7 +55,7 @@ public class VolumeController : IPlugin {
             }
 
             if (query.Search.Length > 0 && !double.TryParse(query.Search, out _))
-                results.RemoveAll(result => result.Title.Equals(_context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_set_volume")));
+                results.RemoveAll(result => result.Title.Equals("Set Volume"));
         }
 
         return results;
@@ -63,8 +63,8 @@ public class VolumeController : IPlugin {
 
     private void AddMuteResult(List<Result> results) {
         results.Add(new Result {
-            Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_mute"),
-            SubTitle = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_subtitle_mute"),
+            Title = "Mute",
+            SubTitle = "Mute the speaker",
             Action = _ => {
                 Mute();
                 return true;
@@ -75,8 +75,8 @@ public class VolumeController : IPlugin {
 
     private void AddUnmuteResult(List<Result> results) {
         results.Add(new Result {
-            Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_unmute"),
-            SubTitle = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_subtitle_mute"),
+            Title = "Unmute",
+            SubTitle = "Unmute the speaker",
             Action = _ => {
                 Unmute();
                 return true;
@@ -86,10 +86,10 @@ public class VolumeController : IPlugin {
     }
 
     private void AddSetVolumeResult(List<Result> results, double value) {
-        var subTitle = value < 0 ? _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_subtitle_set_volume") : $"Set volume to {value}";
+        var subTitle = value < 0 ? "Enter custom value" : $"Set volume to {value}";
 
         results.Add(new Result {
-            Title = _context.API.GetTranslation("flowlauncher_plugin_volume_controller_plugin_title_set_volume"),
+            Title = "Set Volume",
             SubTitle = subTitle,
             Action = _ => {
                 SetVolume(value);
