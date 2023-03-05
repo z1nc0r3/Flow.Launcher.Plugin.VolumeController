@@ -2,6 +2,8 @@
 
 ## A simple Flow Launcher plugin to control the device volume
 
+![output](https://user-images.githubusercontent.com/64279853/222978908-7b8b66b1-23b0-4d79-b21b-8d8503c41e92.gif)
+
 Default action keyword : **vol**
 
 Eg:
