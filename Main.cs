@@ -4,33 +4,28 @@ using NAudio.CoreAudioApi;
 
 namespace Flow.Launcher.Plugin.VolumeController;
 
-public class VolumeController : IPlugin
-{
-    private MMDevice _defaultPlaybackDevice;
+public class VolumeController : IPlugin {
     private readonly MMDeviceEnumerator _deviceEnumerator = new();
-    private AudioEndpointVolume _volume;
 
     private PluginInitContext _context;
 
     private float _currentVolume;
+    private MMDevice _defaultPlaybackDevice;
     private bool _isMute;
+    private AudioEndpointVolume _volume;
 
-    public void Init(PluginInitContext context)
-    {
-        this._context = context;
+    public void Init(PluginInitContext context) {
+        _context = context;
         _defaultPlaybackDevice = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
         _volume = _defaultPlaybackDevice.AudioEndpointVolume;
     }
 
-    public List<Result> Query(Query query)
-    {
+    public List<Result> Query(Query query) {
         var commands = Commands(query);
 
         if (_defaultPlaybackDevice == null || _volume == null)
-            return new List<Result>
-            {
-                new()
-                {
+            return new List<Result> {
+                new() {
                     Title = "No audio endpoint found.",
                     IcoPath = _context.CurrentPluginMetadata.IcoPath
                 }
@@ -39,34 +34,27 @@ public class VolumeController : IPlugin
         return commands;
     }
 
-    private List<Result> Commands(Query query)
-    {
+    private List<Result> Commands(Query query) {
         var results = new List<Result>();
 
         var search = query.Search.Trim().ToLower();
 
-        if (search.StartsWith("m"))
-        {
+        if (search.StartsWith("m")) {
             AddMuteResult(results);
         }
-        else if (search.StartsWith("u"))
-        {
+        else if (search.StartsWith("u")) {
             AddUnmuteResult(results);
         }
-        else if (double.TryParse(query.Search, out var value))
-        {
+        else if (double.TryParse(query.Search, out var value)) {
             AddSetVolumeResult(results, value);
         }
-        else
-        {
+        else {
             AddMuteResult(results);
             AddUnmuteResult(results);
-            try
-            {
+            try {
                 AddSetVolumeResult(results, double.Parse(query.Search));
             }
-            catch
-            {
+            catch {
                 AddSetVolumeResult(results, -1);
             }
 
@@ -77,44 +65,35 @@ public class VolumeController : IPlugin
         return results;
     }
 
-    private void AddMuteResult(List<Result> results)
-    {
-        results.Add(new Result
-        {
+    private void AddMuteResult(List<Result> results) {
+        results.Add(new Result {
             Title = "Mute",
             SubTitle = "Mute the volume",
-            Action = _ =>
-            {
+            Action = _ => {
                 Mute();
                 return true;
             }
         });
     }
 
-    private void AddUnmuteResult(List<Result> results)
-    {
-        results.Add(new Result
-        {
+    private void AddUnmuteResult(List<Result> results) {
+        results.Add(new Result {
             Title = "Unmute",
             SubTitle = "Restore the volume",
-            Action = _ =>
-            {
+            Action = _ => {
                 Unmute();
                 return true;
             }
         });
     }
 
-    private void AddSetVolumeResult(List<Result> results, double value)
-    {
+    private void AddSetVolumeResult(List<Result> results, double value) {
         var subTitle = value < 0 ? "Enter a custom value" : $"Set volume to {value}";
 
-        results.Add(new Result
-        {
+        results.Add(new Result {
             Title = "Set Volume",
             SubTitle = subTitle,
-            Action = _ =>
-            {
+            Action = _ => {
                 SetVolume(value);
                 return true;
             },
@@ -122,15 +101,13 @@ public class VolumeController : IPlugin
         });
     }
 
-    public void SetVolume(double value)
-    {
+    public void SetVolume(double value) {
         value = Math.Max(0, Math.Min(100, value));
         _volume.MasterVolumeLevelScalar = (float)value / 100;
         _currentVolume = _volume.MasterVolumeLevelScalar;
     }
 
-    public void Mute()
-    {
+    public void Mute() {
         if (_isMute) return;
 
         _currentVolume = _volume.MasterVolumeLevelScalar;
@@ -139,8 +116,7 @@ public class VolumeController : IPlugin
         _isMute = true;
     }
 
-    public void Unmute()
-    {
+    public void Unmute() {
         _volume.MasterVolumeLevelScalar = _currentVolume;
         _isMute = false;
     }
