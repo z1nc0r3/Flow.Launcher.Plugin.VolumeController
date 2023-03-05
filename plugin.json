@@ -1,0 +1,12 @@
+{
+    "ID": "88EEE8BB-E5F5-43B1-8FA7-6F3BE228111A",
+    "ActionKeyword": "vol",
+    "Name": "VolumeController",
+    "Description": "Control device volume through Flow Launcher",
+    "Author": "z1nc0r3",
+    "Version": "1.0.0",
+    "Language": "csharp",
+    "Website": "https://github.com/z1nc0r3/Flow.Launcher.Plugin.VolumeController",
+    "IcoPath": "icon.png",
+    "ExecuteFileName": "Flow.Launcher.Plugin.VolumeController.dll"
+}
